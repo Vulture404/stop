@@ -9,26 +9,11 @@
 <style>
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   :root {
-    --bg: #0a0a0a;
-    --bg2: #141414;
-    --bg3: #0f0f0f;
-    --border: #2a2a2a;
-    --text: #e8e8e0;
-    --muted: #555;
-    --green: #4CAF50;
-    --red: #c0392b;
-    --amber: #f39c12;
+    --bg: #0a0a0a; --bg2: #141414; --bg3: #0f0f0f;
+    --border: #2a2a2a; --text: #e8e8e0; --muted: #555;
+    --green: #4CAF50; --red: #c0392b; --amber: #f39c12;
   }
-  body {
-    font-family: 'Space Mono', monospace;
-    background: var(--bg);
-    color: var(--text);
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 24px 16px 48px;
-  }
+  body { font-family: 'Space Mono', monospace; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px 16px 48px; }
   #app { width: 100%; max-width: 460px; }
   h1 { font-family: 'Bebas Neue', sans-serif; font-size: 56px; letter-spacing: 4px; line-height: 1; margin-bottom: 4px; }
   .sub { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 28px; }
@@ -41,8 +26,9 @@
   .btn-ghost:hover { background: #181818; color: var(--text); }
   .row { display: flex; gap: 10px; }
   .row .btn { flex: 1; }
-  input[type=text] { width: 100%; padding: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 24px; letter-spacing: 8px; text-align: center; outline: none; }
-  input[type=text]:focus { border-color: #555; }
+  input[type=text] { width: 100%; padding: 12px; background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; color: var(--text); font-family: 'Space Mono', monospace; font-size: 15px; letter-spacing: 2px; text-align: center; outline: none; }
+  input[type=text]:focus { border-color: #666; }
+  input[type=text].code-input { font-size: 24px; letter-spacing: 8px; }
   .room-code { font-family: 'Bebas Neue', sans-serif; font-size: 52px; letter-spacing: 10px; text-align: center; color: var(--text); background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 16px; }
   .divider { height: 1px; background: #1e1e1e; margin: 14px 0; }
   .srow { display: flex; align-items: center; gap: 8px; font-size: 11px; color: var(--muted); margin: 5px 0; }
@@ -51,7 +37,6 @@
   @keyframes blink { 0%,100%{opacity:1} 50%{opacity:.3} }
   #msg { font-size: 11px; color: var(--muted); text-align: center; letter-spacing: 1px; margin-top: 10px; min-height: 18px; line-height: 1.7; }
   .err { color: var(--red) !important; }
-  /* game */
   .tgt-lbl { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; text-align: center; margin-bottom: 4px; }
   .tgt-time { font-family: 'Bebas Neue', sans-serif; font-size: 100px; letter-spacing: 6px; text-align: center; line-height: 1; }
   .tgt-unit { font-size: 20px; letter-spacing: 2px; color: var(--muted); }
@@ -62,22 +47,24 @@
   .sw-icon { font-size: 40px; }
   @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(232,232,224,.1)} 50%{box-shadow:0 0 0 14px rgba(232,232,224,0)} }
   .gmsg { text-align: center; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
-  /* results */
+  .vs-row { display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 14px; font-size: 11px; color: var(--muted); letter-spacing: 1px; }
+  .vs-name { font-weight: 700; color: var(--text); font-size: 12px; }
+  .vs-sep { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: #333; letter-spacing: 2px; }
   .win-msg { font-family: 'Bebas Neue', sans-serif; font-size: 42px; text-align: center; letter-spacing: 4px; margin: 10px 0; }
   .rgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
   .rc { background: var(--bg3); border: 1px solid var(--border); border-radius: 8px; padding: 14px; text-align: center; }
   .rc.win { border-color: #2d7a3a; }
   .rc.lose { border-color: #3a1a1a; }
-  .rc-n { font-size: 10px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 8px; }
+  .rc-n { font-size: 10px; letter-spacing: 1px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .rc-you { font-size: 9px; color: #444; letter-spacing: 1px; margin-bottom: 6px; }
   .rc-t { font-family: 'Bebas Neue', sans-serif; font-size: 44px; }
   .rc-d { font-size: 11px; color: var(--muted); margin-top: 2px; }
   .gap { height: 10px; }
-  /* dots anim */
   .wd::after { content: ''; animation: wd 1.2s steps(4) infinite; }
   @keyframes wd { 0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%,100%{content:'...'} }
-  /* info */
   .info { background: var(--bg3); border: 1px solid #1e1e1e; border-radius: 8px; padding: 14px; font-size: 11px; color: #666; line-height: 2; }
   .info b { color: #aaa; }
+  .name-badge { display: inline-block; background: #1a1a1a; border: 1px solid #2a2a2a; border-radius: 6px; padding: 4px 10px; font-size: 12px; color: var(--text); letter-spacing: 1px; margin-top: 6px; }
 </style>
 </head>
 <body>
@@ -86,10 +73,12 @@
   <p class="sub">stop when you think the time is right</p>
   <div id="screen"></div>
 </div>
-
 <script>
-let ws, S = {
+let ws;
+let S = {
   view: 'home', room: null, role: null,
+  username: null, opponentName: null,
+  usernames: { A: 'Player A', B: 'Player B' },
   target: null, myTime: null,
   t0: null, running: false, done: false, results: null
 };
@@ -99,32 +88,41 @@ function connect(cb) {
   ws = new WebSocket(`${proto}://${location.host}`);
   ws.onopen = cb;
   ws.onmessage = (e) => handle(JSON.parse(e.data));
-  ws.onclose = () => {
-    if (S.view === 'game' || S.view === 'results') return;
-    setMsg('Connection lost. Please refresh.', true);
-  };
+  ws.onclose = () => { if (S.view !== 'game' && S.view !== 'results') setMsg('Connection lost. Refresh to reconnect.', true); };
 }
 
 function send(data) { if (ws && ws.readyState === 1) ws.send(JSON.stringify(data)); }
 
 function handle(msg) {
   if (msg.type === 'created') {
-    S.room = msg.code; S.target = msg.target; S.view = 'create'; render();
+    S.room = msg.code; S.role = 'A'; S.target = msg.target;
+    S.username = msg.username; S.usernames.A = msg.username;
+    S.view = 'create'; render();
   }
   else if (msg.type === 'player_joined') {
+    S.opponentName = msg.opponentName;
+    S.usernames.B = msg.opponentName;
     const dot = q('#b-dot'); if (dot) dot.classList.add('on');
-    const txt = q('#b-txt'); if (txt) txt.textContent = 'Player B — connected!';
-    setMsg('Player B joined! Starting in 3 seconds…');
+    const txt = q('#b-txt'); if (txt) txt.textContent = msg.opponentName + ' — connected!';
+    setMsg(msg.opponentName + ' joined! Starting in 3 seconds…');
   }
   else if (msg.type === 'joined') {
-    S.room = msg.code; S.target = msg.target; S.view = 'waiting'; render();
+    S.room = msg.code; S.role = 'B'; S.target = msg.target;
+    S.username = msg.username; S.opponentName = msg.opponentName;
+    S.usernames.B = msg.username; S.usernames.A = msg.opponentName;
+    S.view = 'waiting'; render();
   }
   else if (msg.type === 'start') {
-    S.target = msg.target; S.running = false; S.done = false; S.myTime = null; S.t0 = null;
+    S.target = msg.target;
+    if (msg.usernames) S.usernames = msg.usernames;
+    S.running = false; S.done = false; S.myTime = null; S.t0 = null;
     S.view = 'game'; render();
   }
   else if (msg.type === 'results') {
-    S.results = { timeA: msg.timeA, timeB: msg.timeB }; S.target = msg.target;
+    S.results = { timeA: msg.timeA, timeB: msg.timeB };
+    S.target = msg.target;
+    S.role = msg.myRole; // SERVER tells us our role — fixes the bug
+    if (msg.usernames) S.usernames = msg.usernames;
     S.view = 'results'; render();
   }
   else if (msg.type === 'rematch_ready') {
@@ -141,10 +139,13 @@ function handle(msg) {
 
 function q(s) { return document.querySelector(s); }
 function setMsg(t, err) {
-  const m = q('#msg');
-  if (!m) return;
+  const m = q('#msg'); if (!m) return;
   m.textContent = t;
-  if (err) m.classList.add('err'); else m.classList.remove('err');
+  err ? m.classList.add('err') : m.classList.remove('err');
+}
+
+function getUsername() {
+  return (q('#uname')?.value || '').trim().slice(0, 16) || null;
 }
 
 function render() {
@@ -156,9 +157,9 @@ function render() {
 function homeH() { return `
   <div class="info">
     <b>How to play:</b><br>
-    1. Player A clicks <b>Create Room</b> — share the 4-digit code<br>
-    2. Player B opens this same URL and clicks <b>Join Room</b><br>
-    3. A secret target time appears — start your invisible stopwatch and stop it as close to the target as possible<br>
+    1. Player A creates a room — share the 4-digit code<br>
+    2. Player B opens <b>stop-3mep.onrender.com</b> and joins<br>
+    3. A target time appears — stop your invisible stopwatch closest to it<br>
     4. Closest wins!
   </div>
   <div class="gap"></div>
@@ -166,21 +167,23 @@ function homeH() { return `
   <div class="gap"></div>
   <button class="btn btn-ghost" id="btn-j">Join Room — I'm Player B</button>`; }
 
-function createH() { return `
+function nameCardH(placeholder) { return `
   <div class="card">
-    <span class="lbl">your room code — tell player B</span>
-    <div class="room-code">${S.room}</div>
-    <div class="divider"></div>
-    <div class="srow"><div class="dot on"></div> Player A (you) — ready</div>
-    <div class="srow"><div class="dot" id="b-dot"></div> <span id="b-txt">Player B — waiting for them to join</span></div>
-    <div id="msg"><span class="wd">Waiting for Player B</span></div>
-  </div>
+    <span class="lbl">your name</span>
+    <input type="text" id="uname" maxlength="16" placeholder="${placeholder}" autofocus />
+  </div>`; }
+
+function createSetupH() { return `
+  ${nameCardH('e.g. Aadi')}
+  <button class="btn" id="btn-c2">Create Room →</button>
+  <div class="gap"></div>
   <button class="btn btn-ghost" id="btn-back">← Back</button>`; }
 
-function joinH() { return `
+function joinSetupH() { return `
+  ${nameCardH('e.g. Rahul')}
   <div class="card">
-    <span class="lbl">enter room code from player A</span>
-    <input type="text" id="cin" maxlength="4" placeholder="0000" autofocus />
+    <span class="lbl">room code from Player A</span>
+    <input type="text" id="cin" class="code-input" maxlength="4" placeholder="0000" />
     <div id="msg"> </div>
   </div>
   <div class="row">
@@ -188,21 +191,36 @@ function joinH() { return `
     <button class="btn" id="btn-go">Join →</button>
   </div>`; }
 
+function createH() { return `
+  <div class="card">
+    <span class="lbl">your room code — tell the other player</span>
+    <div class="room-code">${S.room}</div>
+    <div class="divider"></div>
+    <div class="srow"><div class="dot on"></div> <span class="name-badge">${S.username}</span> — ready</div>
+    <div class="srow"><div class="dot" id="b-dot"></div> <span id="b-txt">Waiting for opponent to join…</span></div>
+    <div id="msg"><span class="wd">Waiting</span></div>
+  </div>
+  <button class="btn btn-ghost" id="btn-back">← Back</button>`; }
+
 function waitingH() { return `
   <div class="card">
     <span class="lbl">joined room</span>
     <div class="room-code">${S.room}</div>
-    <div id="msg" style="margin-top:12px;"><span class="wd">Waiting for game to start</span></div>
+    <div class="srow" style="margin-top:10px;"><div class="dot on"></div> <span class="name-badge">${S.username}</span> — you</div>
+    <div id="msg" style="margin-top:10px;"><span class="wd">Waiting for game to start</span></div>
   </div>
   <button class="btn btn-ghost" id="btn-back">← Back</button>`; }
 
 function gameH() {
+  const nameA = S.usernames.A || 'Player A';
+  const nameB = S.usernames.B || 'Player B';
   const sw = S.done
     ? `<div class="sw done"><div class="sw-icon">✓</div><div>stopped!</div></div>`
     : S.running
     ? `<div class="sw run" id="sw"><div class="sw-icon">⏹</div><div>tap to stop</div></div>`
     : `<div class="sw" id="sw"><div class="sw-icon">▶</div><div>tap to start</div></div>`;
   return `
+  <div class="vs-row"><span class="vs-name">${nameA}</span><span class="vs-sep">VS</span><span class="vs-name">${nameB}</span></div>
   <div class="tgt-lbl">target time</div>
   <div class="tgt-time">${S.target}<span class="tgt-unit">s</span></div>
   ${sw}
@@ -219,44 +237,65 @@ function resultsH() {
   const dB = timeB != null ? Math.abs(timeB - t) : null;
   let winner = null;
   if (dA != null && dB != null) winner = dA < dB ? 'A' : dB < dA ? 'B' : 'tie';
-  const me = S.role;
+  const me = S.role; // NOW correctly set by server
   const bigMsg = winner === 'tie' ? 'TIE GAME' : winner === me ? 'YOU WIN!' : 'YOU LOSE';
   const bigCol = winner === 'tie' ? 'var(--amber)' : winner === me ? 'var(--green)' : 'var(--red)';
+  const nameA = S.usernames.A || 'Player A';
+  const nameB = S.usernames.B || 'Player B';
   return `
   <div class="tgt-lbl" style="margin-top:8px;">target was</div>
   <div class="tgt-time" style="font-size:64px;">${t}<span class="tgt-unit">s</span></div>
   <div class="win-msg" style="color:${bigCol}">${bigMsg}</div>
   <div class="rgrid">
-    <div class="rc ${winner === 'A' ? 'win' : winner === 'B' ? 'lose' : ''}">
-      <div class="rc-n">Player A ${me === 'A' ? '(you)' : ''}</div>
-      <div class="rc-t" style="color:${winner==='A'?'var(--green)':winner==='B'?'var(--red)':'var(--text)'}">${timeA != null ? timeA.toFixed(3) : '—'}</div>
-      <div class="rc-d">${dA != null ? '±' + dA.toFixed(3) + 's' : ''}</div>
+    <div class="rc ${winner==='A'?'win':winner==='B'?'lose':''}">
+      <div class="rc-n">${nameA}</div>
+      ${me==='A'?'<div class="rc-you">(you)</div>':''}
+      <div class="rc-t" style="color:${winner==='A'?'var(--green)':winner==='B'?'var(--red)':'var(--text)'}">${timeA!=null?timeA.toFixed(3):'—'}</div>
+      <div class="rc-d">${dA!=null?'±'+dA.toFixed(3)+'s':''}</div>
     </div>
-    <div class="rc ${winner === 'B' ? 'win' : winner === 'A' ? 'lose' : ''}">
-      <div class="rc-n">Player B ${me === 'B' ? '(you)' : ''}</div>
-      <div class="rc-t" style="color:${winner==='B'?'var(--green)':winner==='A'?'var(--red)':'var(--text)'}">${timeB != null ? timeB.toFixed(3) : '—'}</div>
-      <div class="rc-d">${dB != null ? '±' + dB.toFixed(3) + 's' : ''}</div>
+    <div class="rc ${winner==='B'?'win':winner==='A'?'lose':''}">
+      <div class="rc-n">${nameB}</div>
+      ${me==='B'?'<div class="rc-you">(you)</div>':''}
+      <div class="rc-t" style="color:${winner==='B'?'var(--green)':winner==='A'?'var(--red)':'var(--text)'}">${timeB!=null?timeB.toFixed(3):'—'}</div>
+      <div class="rc-d">${dB!=null?'±'+dB.toFixed(3)+'s':''}</div>
     </div>
   </div>
   <div class="gap"></div>
-  ${me === 'A' ? `<button class="btn" id="btn-rematch">Play Again (new round)</button><div class="gap"></div>` : `<div id="msg"><span class="wd">Waiting for Player A to start rematch</span></div><div class="gap"></div>`}
+  ${me==='A'?`<button class="btn" id="btn-rematch">Play Again</button><div class="gap"></div>`:`<div id="msg"><span class="wd">Waiting for ${nameA} to start rematch</span></div><div class="gap"></div>`}
   <button class="btn btn-ghost" id="btn-home">Main Menu</button>`; }
 
 function bind() {
-  q('#btn-c')?.addEventListener('click', () => connect(() => send({ type: 'create' })));
-  q('#btn-j')?.addEventListener('click', () => { S.view = 'join'; render(); });
+  q('#btn-c')?.addEventListener('click', () => { S.view = 'create-setup'; render(); });
+  q('#btn-c2')?.addEventListener('click', () => {
+    const name = getUsername();
+    if (!name) { alert('Enter your name!'); return; }
+    connect(() => send({ type: 'create', username: name }));
+  });
+  q('#btn-j')?.addEventListener('click', () => { S.view = 'join-setup'; render(); });
   q('#btn-back')?.addEventListener('click', () => { if (ws) ws.close(); S.view = 'home'; render(); });
   q('#btn-go')?.addEventListener('click', doJoin);
   q('#sw')?.addEventListener('click', handleSW);
   q('#btn-rematch')?.addEventListener('click', () => send({ type: 'rematch' }));
   q('#btn-home')?.addEventListener('click', () => { if (ws) ws.close(); reset(); S.view = 'home'; render(); });
+  q('#uname')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') { q('#btn-c2')?.click(); q('#btn-go')?.click(); } });
   q('#cin')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') doJoin(); });
 }
 
+// Extra views
+const extraViews = { 'create-setup': createSetupH, 'join-setup': joinSetupH };
+const origRender = render;
+render = function() {
+  const views = { home: homeH, 'create-setup': createSetupH, 'join-setup': joinSetupH, create: createH, join: joinSetupH, waiting: waitingH, game: gameH, results: resultsH };
+  q('#screen').innerHTML = (views[S.view] || homeH)();
+  bind();
+};
+
 function doJoin() {
+  const name = getUsername();
+  if (!name) { alert('Enter your name!'); return; }
   const code = (q('#cin')?.value || '').trim();
   if (code.length !== 4) { setMsg('Enter the 4-digit room code.', true); return; }
-  connect(() => { S.role = 'B'; send({ type: 'join', code }); });
+  connect(() => { send({ type: 'join', code, username: name }); });
 }
 
 function handleSW() {
@@ -270,7 +309,7 @@ function handleSW() {
 }
 
 function reset() {
-  S = { view: 'home', room: null, role: null, target: null, myTime: null, t0: null, running: false, done: false, results: null };
+  S = { view: 'home', room: null, role: null, username: null, opponentName: null, usernames: { A: 'Player A', B: 'Player B' }, target: null, myTime: null, t0: null, running: false, done: false, results: null };
 }
 
 render();
